@@ -4,8 +4,13 @@ This repository contains several smaller projects that make up some of my Hallow
 ## Play Media
 This project is designed to play a video or sound based on an MQTT message that comes in.
 
-## Motion Detector (Coming Soon)
-This project is designed to detect motion and publish an MQTT message
+## Motion Detector
+This project is designed to detect motion and publish an MQTT message.
+
+## Scene Controller (Coming Soon)
+This project is the glue between the devices.  You can have individual devices sending commands directly to other devices but I like to make my 
+devices stand alone and have a controller orchestrait the whole scene by interperating sensor data and determining what devices should be triggerd.  
+The controller basically listens for MQTT messages and decides what MQTT messages need to be published to fire the animatonic devices.   
 
 ## MQTT Broker
 Most of these projects communicate with one another using [MQTT](http://www.mqtt.org).  You will need to setup an MQTT broker in order to 
