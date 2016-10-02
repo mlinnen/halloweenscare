@@ -1,6 +1,5 @@
 # Play Media
-The idea behind this project is to have a stand alone device that can be controlled to play a video or sound using MQTT messaging.  You can use any device you want 
-to actually play the video or sounds as long as you adhear to the following specifications: 
+The idea behind this project is to have a stand alone device that can be controlled to play a video or sound using MQTT messaging.  You can use any device you want to actually play the video or sounds as long as you adhere to the following specifications: 
 
 * The device must have a way to access the video or sounds.  This might mean the device stores them in it's own storage mechanism or if it can support streaming content then that is fine too. 
 * The media is played in its full length unless a **stop** command is issued.  Subsequent **play** or **playnext** commands will be ignored while media is being played.
