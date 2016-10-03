@@ -10,7 +10,7 @@ This device is designed to detect motion and publish an MQTT message.
 ## Fog Machine (Coming Soon)
 This device is designed to control a fog machine via MQTT messages.
 
-## Scene Controller (Coming Soon)
+## Scene Controller 
 This project is the glue between the devices.  You can have individual devices sending commands directly to other devices but I like to make my devices stand alone and have a controller orchestrate the whole scene by listening to sensor data and determining what devices should be triggered.  The controller basically listens for MQTT messages and decides what MQTT messages need to be published to fire the animatronic devices.   
    
 
