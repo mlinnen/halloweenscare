@@ -1,4 +1,4 @@
-# Play Media
+# Motion Detector
 The idea behind this project is to have a stand alone device that can detect motion and announce it using MQTT messaging.  You can use any device you want 
 to actually detect motion and communicate via MQTT as long as you adhere to the following specifications: 
 
@@ -6,7 +6,7 @@ to actually detect motion and communicate via MQTT as long as you adhere to the 
 
 ## MQTT Topics and Messages
 
-**{root}** is your root topic that you want to use to issolate the device on the message bus. 
+**{root}** is your root topic that you want to use to isolate the device on the message bus. 
 **{id}** is the Motion Detector Id you want to use to uniquely identify multiple Motion Detectors on the bus.  This **{id}** can be a number or characters as long as it is a set of MQTT Topic valid characters.
 
 ### MQTT Subscriptions

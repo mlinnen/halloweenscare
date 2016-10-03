@@ -7,7 +7,7 @@ The idea behind this project is to have a stand alone device that can be control
 
 ## MQTT Topics and Messages
 
-**{root}** is your root topic that you want to use to issolate the device on the message bus. 
+**{root}** is your root topic that you want to use to isolate the device on the message bus. 
 **{id}** is the Media Player Id you want to use to uniquely control multiple Media Players on the bus.  This **{id}** can be a number or characters as long as it is a set of MQTT Topic valid characters.
 
 ### MQTT Subscriptions
