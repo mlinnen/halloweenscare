@@ -69,4 +69,4 @@ A media players response to the ping request.
 ```
 
 ## Implementations 
-* [Raspberry Pi with Python](RaspberryPi/README.md)
+* [Raspberry Pi with Python](RaspberryPi/)

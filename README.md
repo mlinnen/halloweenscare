@@ -3,19 +3,19 @@ This repository contains several smaller projects that make up some of my Hallow
 
 ## Play Media
 This device is designed to play a video or sound based on an MQTT message that comes in.
-* [Play Media](PlayMedia/README.md)
+* [Play Media](PlayMedia/)
 
 ## Motion Detector
 This device is designed to detect motion and publish an MQTT message.
-* [Motion Detector](MotionDetector/README.md)
+* [Motion Detector](MotionDetector/)
 
 ## Fog Machine (Coming Soon)
 This device is designed to control a fog machine via MQTT messages.
-* [Fog Machine](FogMachine/README.md)
+* [Fog Machine](FogMachine/)
 
 ## Scene Controller 
 A scene controller is nothing more than a way to wire up multiple devices into a scene that is trigger by some external means.  The intent is to make the devices completely isolated from one another so that they only know what they do best and let the scene control manage gluing them all together.  MQTT again is used to subscribe and publish to these devices.  
-* [Details about Scene Controllers](SceneController/README.md)
+* [Details about Scene Controllers](SceneController/)
    
 
 ## MQTT Broker
