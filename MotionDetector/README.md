@@ -31,4 +31,4 @@ A motion detector's response to the ping request.
 ```
 
 ## Implementations 
-* [ESP8266](ESP8266/README.md)
+* [ESP8266](ESP8266/)
