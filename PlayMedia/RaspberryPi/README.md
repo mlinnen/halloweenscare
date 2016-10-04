@@ -29,3 +29,9 @@ The following topic is currently not supported yet.
 ```
 /{root}/media/playended/{id} 1
 ```
+
+## Execution
+To run the script and start listening for MQTT messages open up a shell prompt and navigate to the directory where you cloned the repository. Under PlayMedia/RaspberryPi run the following: 
+```
+python3 playvideo.py
+```
