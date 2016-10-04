@@ -12,7 +12,7 @@ You need to know the IP address of your Raspberry Pi in order to do a lot of the
 1. Open a terminal window on your Raspberry Pi and execute **node-red-start**
     * Check out the [Node-Red Raspberry Pi Documentation](http://nodered.org/docs/hardware/raspberrypi) to configure Node-Red to run on boot.
 2. Open up a browser and go to http://[your raspberry pi IP]:1880
-3. Add an Input -> mqtt node onto the canvas
+3. Add an **Input -> mqtt** node onto the canvas
 4. Double click the node to edit the properties.  If you have not setup an MQTT Server yet in Node-Red you will have to use the pencil edit icon to do so now.
 5. Set the mqtt Topic to **halloween/motion/value/+**
     * Note: the **+** represents match any of the motion detectors. 
@@ -20,7 +20,7 @@ You need to know the IP address of your Raspberry Pi in order to do a lot of the
 6. Set the QoS to **2**
 7. Name the node **Any Motion Change**
 8. Click the **Done** button
-9. Add a Function -> function node to the canvas
+9. Add a **Function -> function** node to the canvas
 10. Edit the function by double clicking it.
 11. Add the following code to the function
 ``` javascript
@@ -31,7 +31,7 @@ return null;
 12. Name the function **If Motion Detected**
 13. Click the **Done** button
 14. Wire the output of the **Any Motion Change** to the input of **If Motion Detected** by dragging a line between the two.
-15. Add an Output -> mqtt node to the canvas
+15. Add an **Output -> mqtt** node to the canvas
 16. Edit the node by double clicking it.
 17. Set the Topic to **halloween/media/playnext/1**
     * Note: change to some other root topic if your Media Player device did not use halloween. 
