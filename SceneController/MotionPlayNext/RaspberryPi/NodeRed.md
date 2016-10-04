@@ -37,6 +37,7 @@ return null;
     * Note: change to some other root topic if your Media Player device did not use halloween. 
 18. Set the QoS to 1
 19. Click the **Done** button
+20. Wire up the output of the **If Motion Detected** node to the input of the **halloween/media/playnext/1** node.
 20. Deploy the flow to node-red by clicking the **Deploy** button
 
 When you are done your node-red flow should look like the following:
