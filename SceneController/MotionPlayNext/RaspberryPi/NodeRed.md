@@ -23,11 +23,13 @@ You need to know the IP address of your Raspberry Pi in order to do a lot of the
 9. Add a **Function -> function** node to the canvas
 10. Edit the function by double clicking it.
 11. Add the following code to the function
+
     ``` javascript
     if (msg.payload=='1')
         return msg;
     return null;
     ```
+    
 12. Name the function **If Motion Detected**
 13. Click the **Done** button
 14. Wire the output of the **Any Motion Change** to the input of **If Motion Detected** by dragging a line between the two.
