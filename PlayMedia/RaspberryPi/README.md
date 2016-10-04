@@ -4,6 +4,8 @@
 * Use the HDMI port to play video on a projector or monitor
 * Use the audio jack to play the audio over some powered speakers
 
+## Media content
+I bought the [AtmosFX Witching Hour Video](https://atmosfx.com/collections/atmosfearfx/products/witching-hour) for my setup.  The video content that this company creates is really fantastic.  You can get a DVD or download the content from their site after you make the purchase.  I chose to project my video onto a window using a sheet.    
 
 ## Install MQTT for Python
 The MQTT library is [Paho Client](https://eclipse.org/paho/clients/python/).  
