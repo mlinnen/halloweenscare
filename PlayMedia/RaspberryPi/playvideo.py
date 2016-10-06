@@ -27,7 +27,7 @@ logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, rc):
-    print("Connected with result code "+str(rc))
+    logging.debug("Connected with result code "+str(rc))
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     client.subscribe(mqtt_broker_root + "media/ping")
@@ -44,7 +44,7 @@ def on_message(client, userdata, msg):
     global index
     
     if ("/play/" in msg.topic):
-        print("play")
+        logging.debug("play")
         # Check to see if the player is still running
         if omxc is not None:
             if omxc.poll() != None:
@@ -57,8 +57,8 @@ def on_message(client, userdata, msg):
                 index = i
                 logging.debug(movies[index])
                 omxc = subprocess.Popen(['omxplayer', '-b','-o','local', movies[index]], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-                client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, index, qos=1)
                 time.sleep(2)
+                client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, index, qos=1)
                 player = True
                 index += 1
                 if (len(movies) <= index):
@@ -67,9 +67,8 @@ def on_message(client, userdata, msg):
         
     if ("/items/" in msg.topic):
         client.publish(mqtt_broker_root + "media/itemsr/"  + playerId, len(movies), qos=1)
-        print("items")
+        logging.debug("items " + len(movies))
     if ("/playnext/" in msg.topic):
-        print("playnext")
         # Check to see if the player is still running
         if omxc is not None:
             if omxc.poll() != None:
@@ -80,20 +79,21 @@ def on_message(client, userdata, msg):
             logging.debug(movies[index])
             omxc = subprocess.Popen(['omxplayer', '-b','-o','local', movies[index]], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             time.sleep(2)
+            client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, index+1, qos=1)
             player = True
             index += 1
             if (len(movies) <= index):
                 index=0        
         
     if ("/stop/" in msg.topic or "/stopall" in msg.topic):
-        print("stop")
+        logging.debug("stop")
         if (player == True):
             if omxc is not None:
                 omxc.stdin.write(b'q')
                 omxc.stdin.flush()
                 time.sleep(1)
     if ("/media/ping" in msg.topic):
-        print("ping")
+        logging.debug("ping")
         client.publish(mqtt_broker_root + "media/pingr/"  + playerId, "", qos=1)
 
 # Find all files in the basePath
