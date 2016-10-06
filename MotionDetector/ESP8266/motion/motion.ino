@@ -28,9 +28,9 @@ const char* ssid = WLAN_SSID;
 const char* password = WLAN_PASS;
 const char* mqtt_server = MQTT_SERVER;
 
-const char* MQTT_TOPIC_PING = "halloween/motion/ping";
-const char* MQTT_TOPIC_PINGR = "halloween/motion/pingr/1";
-const char* MQTT_TOPIC_MOTION = "halloween/motion/value/1";
+const char* MQTT_TOPIC_PING = "/halloween/motion/ping";
+const char* MQTT_TOPIC_PINGR = "/halloween/motion/pingr/1";
+const char* MQTT_TOPIC_MOTION = "/halloween/motion/value/1";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
