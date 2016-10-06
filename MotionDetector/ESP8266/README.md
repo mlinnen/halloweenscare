@@ -4,13 +4,14 @@ I used an Adafruit Feather HUZZAH as my ESP8266 device for this project.  This s
 ## Parts List:
 
 1. [Adafruit Feather HUZZAH ESP8266](https://learn.adafruit.com/adafruit-feather-huzzah-esp8266/overview)
-2. [PIR Motion Sensor]( https://www.adafruit.com/products/189)
+2. [HC-SR501 PIR Motion Sensor](https://www.amazon.com/gp/product/B00FDPO9B8/ref=ask_ql_qh_dp_hza)
 
 ## Wiring
 
-1. Connect the Red wire of the Motion Sensor to PIN 3V of the Feather HUZZAH.  This will power the sensor from the 3.3v regulator.
-2. Connect the Black wire of the Motion Sensor to PIN GND of the Feather HUZZAH.
-3. Connect the Yellow wire of the Motion Sensor to PIN 12 of the Feather HUZZAH.
+1. Connect the Red wire (Power) of the Motion Sensor to PIN USB of the Feather HUZZAH.  This will power the sensor from the 5v coming from the USB Port.
+    * Note: Some sensors can work off the 3.3 volt of the Huzzah but when I tried to do this with my sensor and I got a lot of false triggers.
+2. Connect the Black wire (Ground) of the Motion Sensor to PIN GND of the Feather HUZZAH.
+3. Connect the Yellow wire (Signal) of the Motion Sensor to PIN 12 of the Feather HUZZAH.
 
 ## Code
 
