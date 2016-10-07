@@ -1,4 +1,4 @@
-# Fog Machine (Coming Soon)
+# Fog Machine
 The idea behind this project is to have a stand alone device that can control a fog machine using MQTT messaging.  You can use any device you want 
 to actually control the fog machine as long as you adhere to the following specifications: 
 

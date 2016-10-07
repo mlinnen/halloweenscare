@@ -9,7 +9,7 @@ This device is designed to play a video or sound based on an MQTT message that c
 This device is designed to detect motion and publish an MQTT message.
 * [Motion Detector](MotionDetector/)
 
-## Fog Machine (Coming Soon)
+## Fog Machine
 This device is designed to control a fog machine via MQTT messages.
 * [Fog Machine](FogMachine/)
 
