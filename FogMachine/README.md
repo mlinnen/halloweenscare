@@ -40,3 +40,5 @@ A fog machine's response to the ping request.
 /{root}/fog/pingr/{id} 
 ```
 
+## Implementations 
+* [ESP8266](ESP8266/)
