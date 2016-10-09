@@ -33,3 +33,4 @@ Charge Time
 ```
 /{root}/fog/chargetime/{id} 30
 ```
+
