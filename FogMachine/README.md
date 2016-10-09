@@ -3,6 +3,8 @@ The idea behind this project is to have a stand alone device that can control a 
 to actually control the fog machine as long as you adhere to the following specifications: 
 
 * The device supports configuring a **root** topic.  This will allow all commands to the device to be prefixed.
+* The device knows how long the Fog Machine needs to charge between each fog release.
+* The device ignores commands to turn on the fogger if it has not fully charged yet.
 
 ## MQTT Topics and Messages
 
@@ -25,6 +27,11 @@ Turn the Fog Machine fog on or off.  The message body contains a 1 to turn it on
 Turn the Fog Machine fog on for X number of seconds.  The message body contains the number of seconds you want the fog to be turned on.    
 ```
 /{root}/fog/pulse/{id} 30
+```
+
+Set the charge time that the Fog Machine needs between discharges.  The message body contains a number in seconds.  
+```
+/{root}/fog/chargetime/{id} 30
 ```
 
 ### MQTT Publications

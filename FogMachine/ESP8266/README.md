@@ -25,3 +25,11 @@ For this to work you will need to have a Fog Machine that has a remote switch th
 5. Compile the sketch and upload it to the device.
 
 The onboard LED should come on when Fog Machine is turned on and it should go off when the Fog Machine is turned off.
+
+## MQTT Unsupported Messages and Topics
+Currently this implementation of the Fog Machine does not support the following:
+
+Charge Time  
+```
+/{root}/fog/chargetime/{id} 30
+```
