@@ -109,6 +109,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   // If we get a switch request then respond to it
   if (strstr(topic,MQTT_TOPIC_SWITCH)){
     if (msgString.equals("1")) {
+      isPulseCommand = false;
       newState = STATE_FOGGING;
     }
     else {
