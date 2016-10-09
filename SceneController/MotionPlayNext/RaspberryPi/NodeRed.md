@@ -7,6 +7,8 @@
 * You already have a Play Media device running on your network
 * You have set your **{root}** topic to **halloween** for the Motion Detector and Media Player
 
+I choose to run Node-Red on the same device that Plays my Media items since it was a Raspberry Pi as well.  But you can run Node-Red on a separate device if you like.
+
 You need to know the IP address of your Raspberry Pi in order to do a lot of the steps highlighted below.
 
 1. Open a terminal window on your Raspberry Pi and execute **node-red-start**
@@ -46,7 +48,7 @@ When you are done your node-red flow should look like the following:
 
 ![Node-Red Motion Play Next Flow](img/noderedmotionplaynext.png)
 
-Activate the Motion sensor and you should see/hear one of the media items playing on your Media Player.
+Activate the Motion sensor and you should see/hear one of the media items playing on your Media Player.  If you don't have a motion sensor setup yet then you can add an Inject node and wire it up to a Change node to set the msg.payload to 1 abd then wire that into the **If Motion Detected** node.  This will allow you to click in the Inject node to simulate a Motion.
 
 
 
