@@ -13,7 +13,8 @@ index = 0
 
 # Read INI file for all the configuration
 parser = configparser.ConfigParser()
-parser.read('config.ini')
+# Change where you want the location of the config to be
+parser.read('/home/pi/halloween/config.ini')
 mqtt_broker_ip = parser.get('mqtt_broker', 'ip')
 mqtt_broker_port = parser.getint('mqtt_broker', 'port')
 mqtt_broker_username = parser.get('mqtt_broker', 'username')
