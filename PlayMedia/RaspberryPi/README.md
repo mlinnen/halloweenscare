@@ -25,11 +25,7 @@ specific to the media player.
 * root - the base of the topic that this play will subscribe and publish to.
 
 ## MQTT Unsupported Topics and Messages
-The following topic is currently not supported yet.  
-
-```
-/{root}/media/playended/{id} 1
-```
+Everything is supported.
 
 ## Execution
 To run the script and start listening for MQTT messages open up a shell prompt and navigate to the directory where you cloned the repository. Under PlayMedia/RaspberryPi run the following: 

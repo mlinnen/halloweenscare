@@ -112,9 +112,15 @@ client.on_message = on_message
 
 client.connect(mqtt_broker_ip, mqtt_broker_port, 60)
 
-# Blocking call that processes network traffic, dispatches callbacks and
-# handles reconnecting.
-# Other loop*() functions are available that give a threaded interface and a
-# manual interface.
-client.loop_forever()
+run = True
+while run:
+    client.loop()
+
+    # If a video was started then look for it being completed
+    if omxc is not None:
+        if omxc.poll() != None:
+            omxc = None
+            player = False
+            client.publish(mqtt_broker_root + "media/playended/"  + playerId, index, qos=1)
+
 
