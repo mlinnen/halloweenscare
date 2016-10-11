@@ -6,3 +6,7 @@ This is a pretty simple scene controller.  It basically listens for motion senso
 * [Motion Play Next Media Item on a Raspberry Pi using Python](MotionPlayNext/RaspberryPi/)
 * [Motion Play Next Media Item on a Raspberry Pi using Node-Red](MotionPlayNext/RaspberryPi/NodeRed.md)    
 
+## Motion Play Video & Fogger
+This is a more complex scene controller that involves a motion sensor, media player for videos and a fog machine.  
+* [Motion Play Next & Fogger on a Raspberry Pi using Node-Red](MotionVideoAndFogger/README.md)    
+
