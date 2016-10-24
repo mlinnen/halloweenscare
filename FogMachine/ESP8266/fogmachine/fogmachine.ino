@@ -34,8 +34,8 @@ boolean charging = false;
 boolean chargingTimedOut = true;
 boolean isPulseCommand = false;
 int timerSec = 0;
-int maxChargeTimeSec = 30;
-int maxFogTimeSec = 30;
+int maxChargeTimeSec = 110;
+int maxFogTimeSec = 90;
 int last_fogon = -1;
 boolean timedOut = true;
 unsigned long timer;
@@ -155,13 +155,15 @@ void reconnect() {
 }
 
 void setup() {
-  pinMode(BUILTIN_LED, OUTPUT);     // Initialize the BUILTIN_LED pin as an output
   Serial.begin(115200);
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 
+  pinMode(BUILTIN_LED, OUTPUT);     // Initialize the BUILTIN_LED pin as an output
   pinMode(RELAY_PIN, OUTPUT);
+
+  digitalWrite(BUILTIN_LED, HIGH);
   digitalWrite(RELAY_PIN, HIGH);
 }
 
