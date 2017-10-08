@@ -54,7 +54,7 @@ def on_message(client, userdata, message):
                 player = False
 
         if (not player):
-            i = int(msg.payload)
+            i = int(message.payload)
             if (i>-1 and i<len(movies)):
                 index = i
                 logging.debug(movies[index])
