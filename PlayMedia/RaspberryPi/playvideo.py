@@ -27,31 +27,32 @@ playerId = parser.get('media_player', 'playerId')
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 # The callback for when the client receives a CONNACK response from the server.
-def on_connect(client, userdata, rc):
+def on_connect(self, client, userdata, rc):
     logging.debug("Connected with result code "+str(rc))
+
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    client.subscribe(mqtt_broker_root + "media/ping")
-    client.subscribe(mqtt_broker_root + "media/items/" + playerId)
-    client.subscribe(mqtt_broker_root + "media/play/" + playerId)
-    client.subscribe(mqtt_broker_root + "media/playnext/" + playerId)
-    client.subscribe(mqtt_broker_root + "media/stopall/")
-    client.subscribe(mqtt_broker_root + "media/stop/" + playerId)
+    self.subscribe(mqtt_broker_root + "media/ping")
+    self.subscribe(mqtt_broker_root + "media/items/" + playerId)
+    self.subscribe(mqtt_broker_root + "media/play/" + playerId)
+    self.subscribe(mqtt_broker_root + "media/playnext/" + playerId)
+    self.subscribe(mqtt_broker_root + "media/stopall/")
+    self.subscribe(mqtt_broker_root + "media/stop/" + playerId)
 
 # The callback for when a PUBLISH message is received from the server.
-def on_message(client, userdata, msg):
+def on_message(client, userdata, message):
     global omxc
     global player
     global index
-    
-    if ("/play/" in msg.topic):
+
+    if ("/play/" in message.topic):
         logging.debug("play")
         # Check to see if the player is still running
         if omxc is not None:
             if omxc.poll() != None:
                 omxc = None
                 player = False
-        
+
         if (not player):
             i = int(msg.payload)
             if (i>-1 and i<len(movies)):
@@ -63,13 +64,13 @@ def on_message(client, userdata, msg):
                 player = True
                 index += 1
                 if (len(movies) <= index):
-                    index=0        
-                
-        
-    if ("/items/" in msg.topic):
-        client.publish(mqtt_broker_root + "media/itemsr/"  + playerId, len(movies), qos=1)
-        logging.debug("items " + len(movies))
-    if ("/playnext/" in msg.topic):
+                    index=0
+
+
+    if ("/items/" in message.topic):
+        client.publish(mqtt_broker_root + "media/itemsr/"  + playerId, str(len(movies)), qos=1)
+        logging.debug("items " + str(len(movies)))
+    if ("/playnext/" in message.topic):
         # Check to see if the player is still running
         if omxc is not None:
             if omxc.poll() != None:
@@ -84,16 +85,16 @@ def on_message(client, userdata, msg):
             player = True
             index += 1
             if (len(movies) <= index):
-                index=0        
-        
-    if ("/stop/" in msg.topic or "/stopall" in msg.topic):
+                index=0
+
+    if ("/stop/" in message.topic or "/stopall" in message.topic):
         logging.debug("stop")
         if (player == True):
             if omxc is not None:
                 omxc.stdin.write(b'q')
                 omxc.stdin.flush()
                 time.sleep(1)
-    if ("/media/ping" in msg.topic):
+    if ("/media/ping" in message.topic):
         logging.debug("ping")
         client.publish(mqtt_broker_root + "media/pingr/"  + playerId, "", qos=1)
 
