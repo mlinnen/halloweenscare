@@ -1,0 +1,1 @@
+python ..\..\Test\publish.py -c "..\..\Test\config.ini" -t /halloween/media/play/1 -m "4"

@@ -1,0 +1,1 @@
+python ..\..\Test\publish.py -c "..\..\Test\config.ini" -t /halloween/fog/pulse/1 -m "60"

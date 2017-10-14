@@ -1,3 +1,4 @@
 mywifi.h
 mymqttbroker.h
 .vscode/*
+config.ini
