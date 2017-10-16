@@ -1,0 +1,1 @@
+python ..\..\Test\publish.py -c "..\..\Test\config.ini" -t /halloween/motion/value/2 -m "1"
