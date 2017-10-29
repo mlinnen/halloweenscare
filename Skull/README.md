@@ -35,10 +35,16 @@ Tell the jaw to open 0 to 100%.  A value of 0 means close the mouth.  A value of
 /{root}/skull/jaw/{id} 100
 ```
 
-Tell the skull jaw to do the laugh animation
+Tell the skull jaw to do the laugh animation.  If no payload is sent to the topic then the laugh will start immediately and continue as long as the device decides to continue the laugh. Two optional parameters will change when the laugh starts and how many times the jaw opens and closes.
 
 ```
 /{root}/skull/laugh/{id}
+```
+
+The following laugh will start after 1000 milliseconds and the jaw will open and close 10 times.
+ 
+```
+/{root}/skull/laugh/{id} 1000 10
 ```
 
 Tell the skull to do the bow animation
