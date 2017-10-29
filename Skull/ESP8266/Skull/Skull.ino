@@ -150,6 +150,7 @@ void setHeadXPercent(int percent)
   Serial.println(" ");
   setHeadX(x);
 }
+
 void setHeadYPercent(int percent)
 {
   Serial.print("%y=");
@@ -186,38 +187,58 @@ void level()
 {
   setHeadPercent(0,0);
 }
+
 void lookLeft()
 {
   setHeadXPercent(100);
 }
+
 void lookLeft(int percent)
 {
   setHeadXPercent(percent);
 }
+
 void lookRight()
 {
   setHeadXPercent(-100);
 }
+
 void lookRight(int percent)
 {
   setHeadXPercent(percent);
 }
+
 void bow()
 {
   setHeadXPercent(0);
   setHeadYPercent(-100);
 }
+
 void jawOpen()
 {
   setJaw(JAW_OPEN);
 }
+
 void jawClose()
 {
   setJaw(JAW_CLOSE);
 }
+
 void laugh()
 {
   for(int i=0;i<4;i++)
+  {
+    jawOpen();
+    delay(100);
+    jawClose();
+    delay(100);
+  }
+}
+
+void laugh(int startDelay, int howManyTimes)
+{
+  delay(startDelay);
+  for(int i=0;i<howManyTimes;i++)
   {
     jawOpen();
     delay(100);
@@ -274,7 +295,20 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   // If we get a laugh request then respond to it
   if (strstr(topic,MQTT_TOPIC_LAUGH)){
-    laugh();
+    if (msgString.length()>0)
+    {
+      String startDelayStr = getValue(msgString,' ',0);      
+      String countStr = getValue(msgString,' ',1);      
+      int delayMil = startDelayStr.toInt();
+      int count = 4;
+      if (countStr.length()>0)
+      {
+        count = countStr.toInt();
+      }
+      laugh(delayMil,count);
+    }
+    else
+      laugh();
   }
 
   // If we get a heady request then respond to it
@@ -323,4 +357,19 @@ void loop() {
 
 }
 
+String getValue(String data, char separator, int index)
+{
+  int found = 0;
+  int strIndex[] = {0, -1};
+  int maxIndex = data.length()-1;
 
+  for(int i=0; i<=maxIndex && found<=index; i++){
+    if(data.charAt(i)==separator || i==maxIndex){
+        found++;
+        strIndex[0] = strIndex[1]+1;
+        strIndex[1] = (i == maxIndex) ? i+1 : i;
+    }
+  }
+
+  return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
+}
