@@ -1,0 +1,300 @@
+[
+    {
+        "id": "87599bed.ff2098",
+        "type": "mqtt in",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Motion Change 1",
+        "topic": "/halloween/motion/value/1",
+        "qos": "2",
+        "broker": "d9061909.cda5d8",
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "cc79e53a.5a8e68"
+            ]
+        ]
+    },
+    {
+        "id": "1e41d50.195af2b",
+        "type": "mqtt in",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Fog Machine On/Off",
+        "topic": "/halloween/fog/on/1",
+        "qos": "2",
+        "broker": "d9061909.cda5d8",
+        "x": 130,
+        "y": 220,
+        "wires": [
+            [
+                "cc79e53a.5a8e68"
+            ]
+        ]
+    },
+    {
+        "id": "e7a2d496.c96068",
+        "type": "mqtt in",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Fog Machine Charge",
+        "topic": "/halloween/fog/charge/1",
+        "qos": "2",
+        "broker": "d9061909.cda5d8",
+        "x": 120,
+        "y": 280,
+        "wires": [
+            [
+                "cc79e53a.5a8e68"
+            ]
+        ]
+    },
+    {
+        "id": "46ceaf36.7ca2b",
+        "type": "mqtt in",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Play Video Started",
+        "topic": "/halloween/media/playstarted/1",
+        "qos": "2",
+        "broker": "d9061909.cda5d8",
+        "x": 130,
+        "y": 340,
+        "wires": [
+            [
+                "cc79e53a.5a8e68"
+            ]
+        ]
+    },
+    {
+        "id": "35c2cfca.021be",
+        "type": "mqtt in",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Play Video Ended",
+        "topic": "/halloween/media/playended/1",
+        "qos": "2",
+        "broker": "d9061909.cda5d8",
+        "x": 130,
+        "y": 400,
+        "wires": [
+            [
+                "cc79e53a.5a8e68"
+            ]
+        ]
+    },
+    {
+        "id": "cc79e53a.5a8e68",
+        "type": "function",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Transform MQTT MSG into State",
+        "func": "\nvar motion1 = flow.get('motion1')||0;\nvar motion2 = flow.get('motion2')||0;\nvar fog1 = flow.get('fog1')||0;\nvar charge1 = flow.get('charge1')||0;\nvar playvideo1 = flow.get('playvideo1')||0;\n\nif (msg.topic=='/halloween/motion/value/1') {\n    if (msg.payload == \"1\")\n        motion1 = 1;\n    else\n        motion1 = 0;\n    flow.set('motion1',motion1);\n}\nif (msg.topic=='/halloween/motion/value/2') {\n    if (msg.payload == \"1\")\n        motion2 = 1;\n    else\n        motion2 = 0;\n    flow.set('motion2',motion2);\n}\nif (msg.topic=='/halloween/fog/on/1') {\n    if (msg.payload == \"1\")\n        fog1 = 1;\n    else\n        fog1 = 0;\n    flow.set('fog1',fog1);\n}\nif (msg.topic=='/halloween/fog/charge/1') {\n    if (msg.payload == \"1\")\n        charge1 = 1;\n    else\n        charge1 = 0;\n    flow.set('charge1',charge1);\n}\nif (msg.topic=='/halloween/media/playstarted/1') {\n    playvideo1 = 1;\n    flow.set('playvideo1',playvideo1);\n}\nif (msg.topic=='/halloween/media/playended/1') {\n    playvideo1 = 0;\n    flow.set('playvideo1',playvideo1);\n}\n\nmsg.topic = '/halloween/state/';\nmsg.motion1 = motion1;\nmsg.motion2 = motion2;\nmsg.fog1 = fog1;\nmsg.charge1 = charge1;\nmsg.playvideo1 = playvideo1;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 440,
+        "y": 260,
+        "wires": [
+            [
+                "60b96f90.c3da7",
+                "1ba79e6.3e77d62"
+            ]
+        ]
+    },
+    {
+        "id": "60b96f90.c3da7",
+        "type": "function",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Play Video",
+        "func": "\nif (msg.playvideo1!=1 && (msg.motion1 == 1 || msg.motion2 == 1)) {\n    msg.topic = '/halloween/media/playnext/1';\n    return msg;\n}\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 690,
+        "y": 220,
+        "wires": [
+            [
+                "ebfd6e84.a7031"
+            ]
+        ]
+    },
+    {
+        "id": "ebfd6e84.a7031",
+        "type": "mqtt out",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Play Video",
+        "topic": "/halloween/media/playnext/1",
+        "qos": "1",
+        "retain": "",
+        "broker": "d9061909.cda5d8",
+        "x": 870,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "1ba79e6.3e77d62",
+        "type": "function",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Fog Machine",
+        "func": "\nif (msg.fog1!=1 && msg.playvideo1==1 && msg.charge1==0) {\n    msg.payload = '30';\n    return msg;\n}\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 690,
+        "y": 300,
+        "wires": [
+            [
+                "9a875db1.235f2"
+            ]
+        ]
+    },
+    {
+        "id": "9a875db1.235f2",
+        "type": "mqtt out",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Pulse Fog Machine",
+        "topic": "/halloween/fog/pulse/1",
+        "qos": "1",
+        "retain": "",
+        "broker": "d9061909.cda5d8",
+        "x": 890,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e747ea54.afa2c8",
+        "type": "mqtt in",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Motion Change 2",
+        "topic": "/halloween/motion/value/2",
+        "qos": "2",
+        "broker": "d9061909.cda5d8",
+        "x": 140,
+        "y": 160,
+        "wires": [
+            [
+                "cc79e53a.5a8e68"
+            ]
+        ]
+    },
+    {
+        "id": "782aff1b.0fe2b",
+        "type": "function",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Load State",
+        "func": "msg.motion1 = flow.get('motion1')||0;\nmsg.motion2 = flow.get('motion2')||0;\nmsg.fog1 = flow.get('fog1')||0;\nmsg.charge1 = flow.get('charge1')||0;\nmsg.playvideo1 = flow.get('playvideo1')||0;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 480,
+        "wires": [
+            [
+                "58a84973.2c7608"
+            ]
+        ]
+    },
+    {
+        "id": "83c68919.babaa8",
+        "type": "inject",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 160,
+        "y": 480,
+        "wires": [
+            [
+                "782aff1b.0fe2b"
+            ]
+        ]
+    },
+    {
+        "id": "58a84973.2c7608",
+        "type": "debug",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Display State",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 590,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "5610c385.a86c8c",
+        "type": "inject",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 160,
+        "y": 580,
+        "wires": [
+            [
+                "708e25e2.3f57fc"
+            ]
+        ]
+    },
+    {
+        "id": "708e25e2.3f57fc",
+        "type": "function",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Payload \"0\"",
+        "func": "\nmsg.payload = \"0\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 370,
+        "y": 580,
+        "wires": [
+            [
+                "63f52422.f5964c",
+                "85d04e70.ba58e"
+            ]
+        ]
+    },
+    {
+        "id": "63f52422.f5964c",
+        "type": "mqtt out",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Motion 1",
+        "topic": "/halloween/motion/value/1",
+        "qos": "",
+        "retain": "",
+        "broker": "d9061909.cda5d8",
+        "x": 580,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "85d04e70.ba58e",
+        "type": "mqtt out",
+        "z": "4f0f1b52.f9b3b4",
+        "name": "Motion 2",
+        "topic": "/halloween/motion/value/2",
+        "qos": "",
+        "retain": "",
+        "broker": "d9061909.cda5d8",
+        "x": 580,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "d9061909.cda5d8",
+        "type": "mqtt-broker",
+        "z": "",
+        "broker": "192.168.0.25",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": ""
+    }
+]
