@@ -8,12 +8,12 @@ This is a pretty simple scene controller.  It basically listens for motion senso
 
 ## Motion Play Video & Fogger
 This is a more complex scene controller that involves a motion sensor, media player for videos and a fog machine.  
-* [Motion Play Next & Fogger using Node-Red](MotionVideoAndFogger/NodeRed/README.md)    
+* [Motion Play Next & Fogger using Node-Red](MotionVideoAndFogger/NodeRed/)    
 
 ## Motion Skull Look Left or Right
 This is a scene controller that involves motion sensors and a skeleton head that reacts to the motion.  
-* [Motion Skull Look Left or Right using Node-Red](MotionSkull/NodeRed/README.md)    
+* [Motion Skull Look Left or Right using Node-Red](MotionSkull/NodeRed/)    
 
 ## Laugh Play Audio
 This is a scene controller that involves monitoring the laugh message and playing audio clips.  
-* [Laugh Play Audio using Node-Red](LaughPlayAudio/NodeRed/README.md)
+* [Laugh Play Audio using Node-Red](LaughPlayAudio/NodeRed/)
