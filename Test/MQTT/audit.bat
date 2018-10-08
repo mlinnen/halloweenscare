@@ -1,1 +1,0 @@
-start mosquitto\mosquitto_sub.exe -h %MQTT_IP% -u %MQTT_USR% -P %MQTT_PWD% -t # -v
