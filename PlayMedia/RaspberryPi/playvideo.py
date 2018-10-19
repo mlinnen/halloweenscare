@@ -101,7 +101,7 @@ def on_message(client, userdata, message):
 # Find all files in the basePath
 movies = []
 for (dirpath, dirnames, filenames) in os.walk(basePath):
-    for filename in filenames:
+    for filename in sorted(filenames):
         movies.append(os.path.join(basePath,filename))
     break
 
