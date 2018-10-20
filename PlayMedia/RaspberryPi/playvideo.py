@@ -23,8 +23,14 @@ mqtt_broker_password = parser.get('mqtt_broker', 'password')
 mqtt_broker_root = parser.get('media_player', 'root')
 basePath = parser.get('media_player', 'basePath')
 playerId = parser.get('media_player', 'playerId')
+loggingLevel = parser.get('logging', 'level')
 
-logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
+if ("warning" in loggingLevel):
+    logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
+elif ("info" in loggingLevel):
+    logging.basicConfig(stream=sys.stderr, level=logging.INFO)
+else:
+    logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(self, client, userdata, rc):
