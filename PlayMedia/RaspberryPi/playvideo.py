@@ -24,7 +24,7 @@ mqtt_broker_root = parser.get('media_player', 'root')
 basePath = parser.get('media_player', 'basePath')
 playerId = parser.get('media_player', 'playerId')
 
-logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stderr, level=logging.WARNING)
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(self, client, userdata, rc):
@@ -120,6 +120,7 @@ while run:
     # If a video was started then look for it being completed
     if omxc is not None:
         if omxc.poll() != None:
+            print("\033c") # Clear the console
             omxc = None
             player = False
             client.publish(mqtt_broker_root + "media/playended/"  + playerId, index+1, qos=1)
