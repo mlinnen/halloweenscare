@@ -103,6 +103,7 @@ def on_message(client, userdata, message):
     if ("/media/ping" in message.topic):
         logging.debug("ping")
         client.publish(mqtt_broker_root + "media/pingr/"  + playerId, "", qos=1)
+        print("\033c") # Clear the console
 
 # Find all files in the basePath
 movies = []
