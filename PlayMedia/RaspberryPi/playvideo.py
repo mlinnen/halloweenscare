@@ -10,6 +10,7 @@ import paho.mqtt.client as mqtt
 player = False
 omxc = None
 index = 0
+playingIndex = 0;
 
 # Read INI file for all the configuration
 parser = configparser.ConfigParser()
@@ -66,7 +67,8 @@ def on_message(client, userdata, message):
                 logging.debug(movies[index])
                 omxc = subprocess.Popen(['omxplayer', '-b','-o','local', movies[index]], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
                 time.sleep(2)
-                client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, index+1, qos=1)
+                playingIndex = index+1
+                client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, playingIndex, qos=1)
                 player = True
                 index += 1
                 if (len(movies) <= index):
@@ -87,7 +89,8 @@ def on_message(client, userdata, message):
             logging.debug(movies[index])
             omxc = subprocess.Popen(['omxplayer', '-b','-o','local', movies[index]], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             time.sleep(2)
-            client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, index+1, qos=1)
+            playingIndex = index+1
+            client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, playingIndex, qos=1)
             player = True
             index += 1
             if (len(movies) <= index):
@@ -130,6 +133,6 @@ while run:
             print("\033c") # Clear the console
             omxc = None
             player = False
-            client.publish(mqtt_broker_root + "media/playended/"  + playerId, index+1, qos=1)
+            client.publish(mqtt_broker_root + "media/playended/"  + playerId, playingIndex, qos=1)
 
 
