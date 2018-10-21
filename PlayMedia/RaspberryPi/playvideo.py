@@ -10,7 +10,7 @@ import paho.mqtt.client as mqtt
 player = False
 omxc = None
 index = 0
-playingIndex = 0;
+playingIndex = 0
 
 # Read INI file for all the configuration
 parser = configparser.ConfigParser()
