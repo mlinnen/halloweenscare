@@ -67,7 +67,7 @@ def on_message(client, userdata, message):
                 logging.debug(movies[index])
                 omxc = subprocess.Popen(['omxplayer', '-b','-o','local', movies[index]], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
                 time.sleep(2)
-                playingIndex = index+1
+                playingIndex = index + 1
                 client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, playingIndex, qos=1)
                 player = True
                 index += 1
@@ -89,7 +89,7 @@ def on_message(client, userdata, message):
             logging.debug(movies[index])
             omxc = subprocess.Popen(['omxplayer', '-b','-o','local', movies[index]], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             time.sleep(2)
-            playingIndex = index+1
+            playingIndex = index + 1
             client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, playingIndex, qos=1)
             player = True
             index += 1
