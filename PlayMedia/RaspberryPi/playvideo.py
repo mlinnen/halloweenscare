@@ -51,6 +51,7 @@ def on_message(client, userdata, message):
     global omxc
     global player
     global index
+    global playingIndex
 
     if ("/play/" in message.topic):
         logging.debug("play")
