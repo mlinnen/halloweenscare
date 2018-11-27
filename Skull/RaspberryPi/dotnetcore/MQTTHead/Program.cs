@@ -64,6 +64,20 @@ namespace mqtthead
             _client.Subscribe(new string[] { string.Format("{0}skull/bow/{1}", options.BaseTopic, options.Id) }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
             _logger.Log(LogLevel.Information, "Connected to...{0}", _options.BrokerIp);
+
+            Console.CancelKeyPress += delegate {
+                _logger.Log(LogLevel.Information, "Closing the application");
+                // Unsubscribe from MQTT topics
+                _client.Unsubscribe(new string[] { string.Format("{0}skull/ping", options.BaseTopic),
+                                                   string.Format("{0}skull/heady/{1}", options.BaseTopic, options.Id),
+                                                   string.Format("{0}skull/headx/{1}", options.BaseTopic, options.Id),
+                                                   string.Format("{0}skull/jaw/{1}", options.BaseTopic, options.Id),
+                                                   string.Format("{0}skull/laugh/{1}", options.BaseTopic, options.Id),
+                                                   string.Format("{0}skull/bow/{1}", options.BaseTopic, options.Id) });
+                // Disconnect from the MQTT broker
+                _client.Disconnect();
+            };
+
             return 0;
         }
         static async Task TryReconnectAsync(CancellationToken cancellationToken)
