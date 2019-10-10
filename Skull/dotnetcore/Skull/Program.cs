@@ -35,11 +35,15 @@ namespace Skull
                     MqttConfig mqttConfig = new MqttConfig();
                     hostContext.Configuration.GetSection("MqttBroker").Bind(mqttConfig);
                     services.AddSingleton<MqttConfig>(mqttConfig);
+
+                    SkullConfig skullConfig = new SkullConfig();
+                    hostContext.Configuration.GetSection("SkullConfig").Bind(skullConfig);
+                    services.AddSingleton<SkullConfig>(skullConfig);
+
                     services.AddHostedService<LifetimeEventsHostedService>();
                     services.AddSingleton<SkullControlService>();
                     services.AddSingleton<SkullMqttService>();
                     services.AddSingleton<CommandQueue>();
-                    services.AddSingleton<SkullConfig>();
                 })
                 .ConfigureLogging((hostContext, configLogging) =>
                 {

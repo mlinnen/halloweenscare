@@ -22,30 +22,36 @@ namespace Skull
 
         public void SetJaw(int percent)
         {
+            _logger.LogDebug("SetJaw({0})", percent);
         }
 
         public void SetHeadX(int percent)
         {
+            _logger.LogDebug("SetHeadX({0})", percent);
 
         }
 
         public void SetHeadY(int percent)
         {
+            _logger.LogDebug("SetHeadY({0})", percent);
 
         }
 
         public void Bow()
         {
+            _logger.LogDebug("Bow()");
 
         }
 
         public void JawOpen()
         {
+            _logger.LogDebug("JawOpen()");
 
         }
 
         public void JawClose()
         {
+            _logger.LogDebug("JawClose()");
 
         }
 
@@ -72,6 +78,16 @@ namespace Skull
 
         }
 
+        public void Yes()
+        {
+
+        }
+
+        public void No()
+        {
+
+        }
+
         public void Connect()
         {
             _logger.LogInformation("Connecting to the servo controller");
@@ -88,9 +104,37 @@ namespace Skull
                 while (moreToDo)
                 {
                     var command = _commandQueue.Dequeue();
+                    bool processedCommand = false;
                     if (command!=null)
                     {
-                        _logger.LogInformation("Command id: {0}", command.CommandId);
+                        switch(command.CommandId)
+                        {
+                            case CommandIdEnum.Bow:
+                                Bow();
+                                break;
+                            case CommandIdEnum.HeadX:
+                                this.SetHeadX(((CommandHeadX)command).Value);
+                                break;
+                            case CommandIdEnum.HeadY:
+                                this.SetHeadY(((CommandHeadY)command).Value);
+                                break;
+                            case CommandIdEnum.Jaw:
+                                this.SetJaw(((CommandJaw)command).Value);
+                                break;
+                            case CommandIdEnum.Laugh:
+                                this.LaughWithDelay(((CommandLaugh)command).StartDelay, ((CommandLaugh)command).NumberOfTimes);
+                                break;
+                            case CommandIdEnum.Yes:
+                                this.Yes();
+                                break;
+                            case CommandIdEnum.No:
+                                this.No();
+                                break;
+                            default:
+                                _logger.LogWarning("Unknown Command id: {0}", command.CommandId);
+                                break;
+                        }
+                        processedCommand = true;
                     }
                     // Poll on this property if you have to do
                     // other cleanup before throwing.
@@ -99,7 +143,8 @@ namespace Skull
                         // Clean up here, then...
                         ct.ThrowIfCancellationRequested();
                     }
-                    Thread.Sleep(100);
+                    if (!processedCommand)
+                        Thread.Sleep(100);
                 }
             }, _tokenSource.Token); 
         }

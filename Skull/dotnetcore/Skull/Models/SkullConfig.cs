@@ -45,5 +45,20 @@ namespace Skull
         /// Servo value for closing the jaw all the way
         /// </summary>
         public int JawMin { get; set; }
+
+        /// <summary>
+        /// The PWM Channel that the Jaw Servo is on
+        /// </summary>
+        public int JawChannel { get; set; }
+
+        /// <summary>
+        /// The PWM Channel that the Head X Servo is on
+        /// </summary>
+        public int HeadXChannel { get; set; }
+
+        /// <summary>
+        /// The PWM Channel that the Head Y Servo is on
+        /// </summary>
+        public int HeadYChannel { get; set; }
     }
 }
