@@ -104,7 +104,7 @@ namespace Skull
             else if (e.Topic == string.Format("{0}skull/laugh/{1}", _mqttConfig.BaseTopic, _mqttConfig.TopicId))
             {
                 int delay = 0;
-                int numberOfTimes = 0;
+                int numberOfTimes = 1;
                 string[] parameters = payload.Split(' ');
                 if (parameters.Length>=1)
                     int.TryParse(parameters[0].Trim(), out delay);
@@ -114,6 +114,8 @@ namespace Skull
                 var cmd = new CommandLaugh();
                 cmd.StartDelay = delay;
                 cmd.NumberOfTimes = numberOfTimes;
+                if (cmd.NumberOfTimes == 0)
+                    cmd.NumberOfTimes = 1;
                 _commandQueue.Enqueue(cmd);
             }
             else if (e.Topic == string.Format("{0}skull/bow/{1}", _mqttConfig.BaseTopic, _mqttConfig.TopicId))
