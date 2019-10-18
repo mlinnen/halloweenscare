@@ -17,24 +17,24 @@ namespace Skull
         public int HeadYMin { get; set; }
 
         /// <summary>
-        /// The servo value to make the head look straight 
+        /// The servo deafult value 
         /// </summary>
-        public int HeadYZero { get; set; }
+        public int HeadYDefault { get; set; }
 
         /// <summary>
         /// The servo value to make the head look left 100% 
         /// </summary>
-        public int HeadXLeft { get; set; }
+        public int HeadXMin { get; set; }
 
         /// <summary>
         /// The servo value to make the head look right 100% 
         /// </summary>
-        public int HeadXRight { get; set; }
+        public int HeadXMax { get; set; }
 
         /// <summary>
         /// The servo value to make the head look straight ahead 
         /// </summary>
-        public int HeadXZero { get; set; }
+        public int HeadXDefault { get; set; }
 
         /// <summary>
         /// Servo Value for opening the jaw all the way
@@ -45,6 +45,11 @@ namespace Skull
         /// Servo value for closing the jaw all the way
         /// </summary>
         public int JawMin { get; set; }
+
+        /// <summary>
+        /// Servo default value
+        /// </summary>
+        public int JawDefault { get; set; }
 
         /// <summary>
         /// The PWM Channel that the Jaw Servo is on
@@ -60,5 +65,10 @@ namespace Skull
         /// The PWM Channel that the Head Y Servo is on
         /// </summary>
         public int HeadYChannel { get; set; }
+
+        /// <summary>
+        /// Determines which driver will be used for the server motors
+        /// </summary>
+        public string ServoMotorDriver { get; set; }
     }
 }

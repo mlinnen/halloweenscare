@@ -1,13 +1,9 @@
 
-using Iot.Device.Pwm;
-using Iot.Device.ServoMotor;
 using Microsoft.Extensions.Logging;
+using Skull.HAL;
 using System;
-using System.Device.I2c;
-using System.Device.Pwm;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace Skull
 {
@@ -17,17 +13,20 @@ namespace Skull
         private readonly SkullConfig _skullConfig;
         private readonly CommandQueue _commandQueue;
         private CancellationTokenSource _tokenSource;
-        private Pca9685 _pwmDevice;
-        private ServoMotor _jaw;
-        private PwmChannel _jawChannel;
-        private ServoMotor _headX;
-        private ServoMotor _headY;
+        private IPwmDriver _pwmDriver;
+        private IServoMotor _jaw;
+        private IServoMotor _headX;
+        private IServoMotor _headY;
 
-        public SkullControlService(ILogger<SkullControlService> logger, SkullConfig skullConfig, CommandQueue commandQueue)
+        public SkullControlService(ILogger<SkullControlService> logger,IPwmDriver pwmDriver, SkullConfig skullConfig, CommandQueue commandQueue, IServoMotor jaw, IServoMotor headX, IServoMotor headY)
         {
             _logger = logger;
             _skullConfig = skullConfig;
             _commandQueue = commandQueue;
+            _pwmDriver = pwmDriver;
+            _jaw = jaw;
+            _headX = headX;
+            _headY = headY;
         }
 
         /// <summary>
@@ -51,33 +50,31 @@ namespace Skull
 
         public void SetHeadX(int percent)
         {
-            _logger.LogDebug("SetHeadX({0})", percent);
+            _logger.LogInformation("SetHeadX({0})", percent);
             if (percent < -100 || percent > 100)
             {
                 _logger.LogWarning("Invalid percentage value for the Head X {0}", percent);
                 return;
             }
             int mappedValue = percent.Map(-100, 100, 0, 100);
-            _pwmDevice.SetDutyCycle(_skullConfig.HeadXChannel, mappedValue/100);
-
+            _headX.WriteAngle(mappedValue);
         }
 
         public void SetHeadY(int percent)
         {
-            _logger.LogDebug("SetHeadY({0})", percent);
+            _logger.LogInformation("SetHeadY({0})", percent);
             if (percent < -100 || percent > 100)
             {
                 _logger.LogWarning("Invalid percentage value for the Head Y {0}", percent);
                 return;
             }
             int mappedValue = percent.Map(-100, 100, 0, 100);
-            _pwmDevice.SetDutyCycle(_skullConfig.HeadYChannel, mappedValue / 100);
-
+            _headY.WriteAngle(mappedValue);
         }
 
         public void Bow()
         {
-            _logger.LogDebug("Bow()");
+            _logger.LogInformation("Bow()");
             SetHeadX(-100);
             SetHeadY(0);
 
@@ -85,14 +82,14 @@ namespace Skull
 
         public void JawOpen()
         {
-            _logger.LogDebug("JawOpen()");
+            _logger.LogInformation("JawOpen()");
             SetJaw(100);
 
         }
 
         public void JawClose()
         {
-            _logger.LogDebug("JawClose()");
+            _logger.LogInformation("JawClose()");
             SetJaw(0);
         }
 
@@ -135,20 +132,29 @@ namespace Skull
         {
             _logger.LogInformation("Connecting to the servo controller");
 
-            var busId = 1;
-            var selectedI2cAddress = 00000000;     // A5 A4 A3 A2 A1 A0
-            var deviceAddress = Pca9685.I2cAddressBase + selectedI2cAddress;
+            _pwmDriver.Connect();
 
-            var settings = new I2cConnectionSettings(busId, deviceAddress);
-            var device = I2cDevice.Create(settings);
-            _pwmDevice = new Pca9685(device);
-            _pwmDevice.PwmFrequency = 50;
-            //_pwmDevice.SetDutyCycleAllChannels(0.5);
-            _jawChannel = _pwmDevice.CreatePwmChannel(_skullConfig.JawChannel);
-            _jawChannel.DutyCycle = 0.5;
-            _jaw = new ServoMotor(_jawChannel, 180, 700, 2200);
-            _jaw.Start();
-            _jaw.WriteAngle(_skullConfig.JawMin);
+            _jaw.Id = _skullConfig.JawChannel;
+            _jaw.Name = "Jaw";
+            _jaw.MaxAngle = _skullConfig.JawMax;
+            _jaw.MinAngle = _skullConfig.JawMin;
+            _jaw.DefaultAngle = _skullConfig.JawMin;
+
+            _headX.Id = _skullConfig.HeadXChannel;
+            _headX.Name = "Head X";
+            _headX.MaxAngle = _skullConfig.HeadXMax;
+            _headX.MinAngle = _skullConfig.HeadXMin;
+            _headX.DefaultAngle = _skullConfig.HeadYDefault;
+
+            _headY.Id = _skullConfig.HeadYChannel;
+            _headY.Name = "Head Y";
+            _headY.MaxAngle = _skullConfig.HeadYMax;
+            _headY.MinAngle = _skullConfig.HeadYMin;
+            _headY.DefaultAngle = _skullConfig.HeadYDefault;
+
+            _jaw.Connect();
+            _headX.Connect();
+            _headY.Connect();
 
             _tokenSource = new CancellationTokenSource();
             var ct = _tokenSource.Token;
@@ -217,14 +223,12 @@ namespace Skull
         public void Disconnect()
         {
             _logger.LogInformation("Disconnecting from the servo controller");
-            if (_pwmDevice!=null)
+            if (_pwmDriver!=null)
             {
-                _jaw.Stop();
-                _jawChannel.Stop();
-                _jaw.Dispose();
-                _jawChannel.Dispose();
-                _pwmDevice.Dispose();
-                _pwmDevice = null;
+                _pwmDriver.Disconnect();
+                _jaw.Disconnect();
+                _headX.Disconnect();
+                _headY.Disconnect();
             }
             if (_tokenSource != null)
                 _tokenSource.Cancel();

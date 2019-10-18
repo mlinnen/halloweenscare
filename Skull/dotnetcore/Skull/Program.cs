@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Skull.HAL;
 
 namespace Skull
 {
@@ -43,6 +44,16 @@ namespace Skull
                     services.AddHostedService<LifetimeEventsHostedService>();
                     services.AddSingleton<SkullControlService>();
                     services.AddSingleton<SkullMqttService>();
+                    if (string.IsNullOrEmpty(skullConfig.ServoMotorDriver) || skullConfig.ServoMotorDriver.Equals("pca986", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        services.AddSingleton<IPwmDriver, PwmI2CDriver>();
+                        services.AddTransient<IServoMotor, ServoMotorDriver>();
+                    }
+                    else if (skullConfig.ServoMotorDriver.Equals("mock", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        services.AddSingleton<IPwmDriver, PwmMockDriver>();
+                        services.AddTransient<IServoMotor, ServoMotorMockDriver>();
+                    }
                     services.AddSingleton<CommandQueue>();
                 })
                 .ConfigureLogging((hostContext, configLogging) =>
