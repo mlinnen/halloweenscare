@@ -62,6 +62,21 @@ Systemd is a good way to get this script to run on boot.
     ```
     sudo reboot
     ```
+### Hide the raspberry pi boot messages
+It is nice to not display the boot messages on your screen as the system comes up.  This requires changing some boot options.
+```
+sudo nano /boot/cmdline.txt
+```
+Then make the following changes in the file:
+1. replace console=tty1 to console=tty3
+1. add loglevel=3
+1. add vt.global_cursor_default=0
+1. execute the following to disable the console login on boot up
+```
+sudo systemctl disable getty@tty1.service
+```
+
+
 
 ## MQTT Unsupported Topics and Messages
 Everything is supported.
