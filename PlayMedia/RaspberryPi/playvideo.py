@@ -4,6 +4,7 @@ import sys
 import subprocess
 import logging
 import time
+import argparse
 import configparser
 import paho.mqtt.client as mqtt
 
@@ -12,10 +13,16 @@ omxc = None
 index = 0
 playingIndex = 0
 
+argParser = argparse.ArgumentParser(description='Play Media')
+argParser.add_argument('file', help='Path to the config filename')
+args = argParser.parse_args()
+
 # Read INI file for all the configuration
 parser = configparser.ConfigParser()
 # Change where you want the location of the config to be
-parser.read('/home/pi/halloween/config.ini')
+# parser.read('/home/pi/halloween/config.ini')
+if args.file:
+  parser.read(args.file)
 mqtt_broker_ip = parser.get('mqtt_broker', 'ip')
 mqtt_broker_port = parser.getint('mqtt_broker', 'port')
 mqtt_broker_username = parser.get('mqtt_broker', 'username')
