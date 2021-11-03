@@ -70,22 +70,22 @@ def on_message(client, userdata, message):
 
         if (not player):
             i = int(message.payload) - 1
-            if (i>-1 and i<len(movies)):
+            if (i>-1 and i<len(mediaItems)):
                 index = i
-                logging.debug(movies[index])
-                omxc = subprocess.Popen(['omxplayer', '-b','-o','local', movies[index]], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+                logging.debug(mediaItems[index])
+                omxc = subprocess.Popen(['omxplayer', '-b','-o','local', mediaItems[index]], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
                 time.sleep(2)
                 playingIndex = index + 1
                 client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, playingIndex, qos=1)
                 player = True
                 index += 1
-                if (len(movies) <= index):
+                if (len(mediaItems) <= index):
                     index=0
 
 
     if ("/items/" in message.topic):
-        client.publish(mqtt_broker_root + "media/itemsr/"  + playerId, str(len(movies)), qos=1)
-        logging.debug("items " + str(len(movies)))
+        client.publish(mqtt_broker_root + "media/itemsr/"  + playerId, str(len(mediaItems)), qos=1)
+        logging.debug("items " + str(len(mediaItems)))
     if ("/playnext/" in message.topic):
         # Check to see if the player is still running
         if omxc is not None:
@@ -94,14 +94,14 @@ def on_message(client, userdata, message):
                 player = False
 
         if (not player):
-            logging.debug(movies[index])
-            omxc = subprocess.Popen(['omxplayer', '-b','-o','local', movies[index]], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+            logging.debug(mediaItems[index])
+            omxc = subprocess.Popen(['omxplayer', '-b','-o','local', mediaItems[index]], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
             time.sleep(2)
             playingIndex = index + 1
             client.publish(mqtt_broker_root + "media/playstarted/"  + playerId, playingIndex, qos=1)
             player = True
             index += 1
-            if (len(movies) <= index):
+            if (len(mediaItems) <= index):
                 index=0
 
     if ("/stop/" in message.topic or "/stopall" in message.topic):
@@ -117,10 +117,10 @@ def on_message(client, userdata, message):
         print("\033c") # Clear the console
 
 # Find all files in the basePath
-movies = []
+mediaItems = []
 for (dirpath, dirnames, filenames) in os.walk(basePath):
     for filename in sorted(filenames):
-        movies.append(os.path.join(basePath,filename))
+        mediaItems.append(os.path.join(basePath,filename))
     break
 
 
