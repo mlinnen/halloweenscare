@@ -26,7 +26,7 @@ pip3 install paho-mqtt
     sudo apt install omxplayer
     ```
 1. Create a folder for the script, like /home/pi/halloween.
-1. Copy the playvideo.py script and sample.ini file to the /home/pi/halloween folder.  
+1. Copy the playmedia.py script and sample.ini file to the /home/pi/halloween folder.  
 1. Create a folder to hold the media, like /home/pi/halloween/video.  
 1. Copy the media to the new folder.
 
@@ -38,9 +38,9 @@ Currently you must use a broker that is configured with a username/password.  Th
 * root - the base of the topic that this play will subscribe and publish to.
 
 At this point you might want to do some tests to make sure you can connect to the MQTT broker and receive commands.
-1. Execute the playvideo.py script
+1. Execute the playmedia.py script
     ```
-    python3 playvideo.py /home/pi/halloween/config.ini
+    python3 playmedia.py /home/pi/halloween/config.ini
     ```
 1. Using mosquitto sub utility subscribe to the root topic.  Of course make sure you change the broker connection details o match your environment.
     ```
@@ -69,7 +69,7 @@ Systemd is a good way to get this script to run on boot.
     WorkingDirectory=/home/pi/
     User=pi
     Type=idle
-    ExecStart=/usr/bin/python3 /home/pi/halloween/playvideo.py /home/pi/halloween/config.ini
+    ExecStart=/usr/bin/python3 /home/pi/halloween/playmedia.py /home/pi/halloween/config.ini
 
     [Install]
     WantedBy=multi-user.target
