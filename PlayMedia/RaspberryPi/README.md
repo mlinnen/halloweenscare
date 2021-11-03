@@ -30,7 +30,7 @@ pip3 install paho-mqtt
 1. Create a folder to hold the media, like /home/pi/halloween/video.  
 1. Copy the media to the new folder.
 
-The python script is expecting the configuration values to be in **/home/pi/halloween/config.ini** so you need to rename the **sample.ini** to **/home/pi/halloween/config.ini** 
+The python script is expecting the configuration values to be in **config.ini** so you need to rename the **sample.ini** to **config.ini** 
 and then edit the **config.ini** file.  The **[mqtt_broker]** section in the INI file contains all the connection details to your broker.  
 Currently you must use a broker that is configured with a username/password.  The **[media_player]** section of the INI file contains settings specific to the media player.  
 * basePath - the location where the media content resides. 
@@ -40,7 +40,7 @@ Currently you must use a broker that is configured with a username/password.  Th
 At this point you might want to do some tests to make sure you can connect to the MQTT broker and receive commands.
 1. Execute the playvideo.py script
     ```
-    python3 playvideo.py
+    python3 playvideo.py /home/pi/halloween/config.ini
     ```
 1. Using mosquitto sub utility subscribe to the root topic.  Of course make sure you change the broker connection details o match your environment.
     ```
@@ -69,7 +69,7 @@ Systemd is a good way to get this script to run on boot.
     WorkingDirectory=/home/pi/
     User=pi
     Type=idle
-    ExecStart=/usr/bin/python3 /home/pi/halloween/playvideo.py
+    ExecStart=/usr/bin/python3 /home/pi/halloween/playvideo.py /home/pi/halloween/config.ini
 
     [Install]
     WantedBy=multi-user.target
